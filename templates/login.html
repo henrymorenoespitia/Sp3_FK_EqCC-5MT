@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+    <title>Login-TusAccesorios App</title>
+    <!--<link rel = "stylesheet" href="estilos.css" type="text/css" media="all"/>
+        <link rel = "stylesheet" href="botones.css" type="text/css" media="all"/>-->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/estiloFormyBotones.css') }}"
+      type="text/css"
+      media="all"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <!-- seccion de campos para email y contraseña :: poder VER la contraseña y validar "seguridad" de contraseña -->
+
+    <div class="login__container">
+      <div class="form__container">
+        <form action="/file" method="POST" class="login__form">
+          <label for="usuario">Usuario </label> <br />
+          <input
+            type="text"
+            value=""
+            id="usuario"
+            placeholder="Ingrese su usuario"
+            required
+          /><br />
+
+          <label for="thePassword">Contraseña </label><br />
+          <input
+            type="password"
+            value=""
+            id="thePassword"
+            placeholder="Ingrese su contraseña"
+            required
+          />
+          <!-- elemento que alterna la vista de la contraseña -->
+          <br />
+          <div>
+            <label class="switch">
+              <input type="checkbox" onclick="alternarVista()" />
+              <span class="slider round"></span>
+              <script src= "{{url_for('static', filename='js/alternarVistaPwd.js') }}" ></script>
+            </label>
+            Mostrar Contraseña
+          </div>
+          <div>
+            <span>
+              ¿ Olvidó su contraseña ?
+              <input type="submit" value="Ingresar" />
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <img src=" {{url_for('static', filename='images/logo.png') }}" class="logo" />
+    </div>
+  </body>
+</html>
