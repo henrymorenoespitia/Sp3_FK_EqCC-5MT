@@ -1,6 +1,9 @@
 
 from flask import Flask, render_template, request
 from markupsafe import escape
+import yagmail as yagmail
+from utils import isPasswordValid, isUsernameValid, isEmailValid
+
 
 app = Flask(__name__)
 
@@ -30,7 +33,30 @@ def registro():
         apell   = escape(request.form['apellidos'])
         email   = escape(request.form['email'])
         #repEm  = escape(request.form['repEmail'])
-        return f"datos recibidos"
+        retornar = ''
+        if not isUsernameValid(nom): ## falta validad existencia en DB
+            retornar += 'Nombre de usuario no valido\n'
+        elif not isEmailValid(email):
+            retornar += 'Email no valido\n'
+        else:
+            #retornar = 'Se ha enviado un correo al usuario para confirmar. #Todos los datos estan correctos al validarse\n'
+            #yag = yagmail.SMPT('', '') # ajustar datos
+            #yag.send(to=ema, subject='Confirmar cuenta TusAccApp', contents='Active su cuenta generando su contraseña mediante el siguiente enlace:: <a href=#>...enlace..... </a>')
+            retornar = render_template('crearUsuario.html')
+        return retornar
+
+        """ 
+        --     Lógica algoritmica     --
+        1. validar los datos que vienen desde el formulario del Cliente
+        2. Conexion a la base de datos 
+        3. Validar existencia del registro en la DB
+        4. Insercion en DB Tabla TEMPORAL !!
+        5. Enviar correo de confirmacion al usuario.
+        6. Insercion en DB tabla Usuarios PERMANENTE !!.
+        7. Enviar respuesta al Cliente de exito al crear usuario 
+        """
+    else: 
+        return render_template('crearUsuario.html')
 
 
 @app.route('/nuevoAccesorio/', methods=['GET', 'POST'])
