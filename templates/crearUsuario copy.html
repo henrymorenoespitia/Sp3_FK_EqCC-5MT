@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+    <title>crear Usuario-TusAccApp</title>
+    <!--<link rel = "stylesheet" href="estilos.css" type="text/css" media="all"/>
+        <link rel = "stylesheet" href="botones.css" type="text/css" media="all"/>-->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = 'CSS/estiloFormyBotones.css') }}"
+      type="text/css"
+      media="all"
+    />
+    <meta charset="UTF-8" />
+   
+ 
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="inventario.css" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache", mustrevalidate>
+    <meta http-equiv="Pragma" content="no-cache">
+  </head>
+  <body>
+    <!-- seccion de campos para email y contraseña :: poder VER la contraseña y validar "seguridad" de contraseña -->
+
+    <div class="containerPrimero">
+      <form action="/creandoUsuario/" method="post">
+        <div>
+          <label for="nombres">Nombres</label>
+          <input type="text" id="nombres" name="nombres" required="" />
+        </div>
+        <div>
+          <label for="apellidos">Apellidos</label>
+          <input type="text" id="apellidos" name="apellidos" required="" />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+            required="required"
+          />
+        </div>
+        <div>
+          <label for="nombreDeUsuario">nombre de usuario</label>
+          <input
+            type="text"
+            id="nombreDeUsuario"
+            name="nombreDeUsuario"
+            required=""
+          />
+        </div>
+
+        <span>
+          <input type="submit" value="Crear y Enviar correo" formmethod="post" action="/creandoUsuario/" />
+        </span>
+
+        <br />
+      </form>
+    </div>
+    <div id="message" style="display: none">
+      <h3>La contraseña debe contener:</h3>
+      <p id="letter" class="valid">Una <b>Una letra minuscula </b> letter</p>
+      <p id="capital" class="invalid">Una <b> letra mayuscula</b> letter</p>
+      <p id="number" class="invalid">Un <b>número</b></p>
+      <p id="length" class="invalid">Minimo <b> 8 caracteres</b></p>
+    </div>
+
+    <div class="contenedor" style="height: 62px; width: 1213px">
+      <div style="height: 67px" class="topnav">
+        <a href="#" class="active"
+          ><img
+            src="https://cdn.icon-icons.com/icons2/936/PNG/128/home_icon-icons.com_73532.png"
+            width="30px"
+        /></a>
+        <a href="#">TIENDA</a>
+        <a href="#">CONTACTANOS</a>
+        <a href="#">MÁS</a>
+        <input
+          type="text"
+          class="buscador"
+          name="buscar"
+          text="buscar"
+          size="40px"
+          maxlength="25"
+          style="margin-top: 20px; margin-left: 200px"
+        />
+        <img
+          src="https://cdn.icon-icons.com/icons2/568/PNG/128/search_icon-icons.com_54424.png"
+          alt=""
+          style="width: 17px; height: 17px"
+        />
+      </div>
+    </div>
+
+    <div class="menu boton">
+      <img
+        class="icon"
+        src="https://cdn.icon-icons.com/icons2/1141/PNG/128/1486395871-menu_80607.png"
+        alt=""
+      />
+      <nav class="menu-navegacion">
+        <label class="btnUser" id="btnUser" style="cursor: hand; border: 0px"
+          >Usuario</label
+        >
+        <a href="crearUsuario.html" class="subelegida us">Agregar Usuario</a>
+        <a href="actualizarUsuario.html" class="subelegida us1"
+          >Modificar Usuario</a
+        >
+        <a href="actualizarUsuario.html" class="subelegida us2"
+          >Eliminar Usuario</a
+        >
+        <label href="" class="btnProducto" id="btnProducto" style="cursor: hand"
+          >Producto</label
+        >
+        <a href="crearProducto.html" class="subelegida pro">Agregar Producto</a>
+        <a href="actualizarProducto.html" class="subelegida pro1"
+          >Modificar Producto</a
+        >
+        <a href="actualizarProducto.html" class="subelegida pro2"
+          >Eliminar Producto</a
+        >
+        <a href="login.html" class="elegida" style="cursor: hand"
+          >Cerrar sesión</a
+        >
+      </nav>
+    </div>
+    <script src="{{ url_for('static', filename= 'js/inventario.js') }} "></script>
+  </body>
+</html>
