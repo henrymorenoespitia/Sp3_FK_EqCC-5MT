@@ -1,0 +1,52 @@
+{% extends "base.html"%}
+
+{% block contenido %}
+
+<div class="containerPrimero">
+  <form action="/">
+    <div>
+      <label for="nombres">Nombres</label>
+      <input type="text" id="nombres" name="nombres" required="">
+    </div>
+    <div>
+      <label for="apellidos">Apellidos</label>
+      <input type="text" id="apellidos" name="apellidos" required="">
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email" pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$" required="required">
+    </div>
+    <div>
+      <label for="nombreDeUsuario">nombre de usuario</label>
+      <input type="text" id="nombreDeUsuario" name="nombreDeUsuario" required="">
+    </div>
+
+    <span>
+
+      <input type="submit" value="Actualizar" >
+   </span>
+   
+   <span>
+
+    <input type="submit" value="Eliminar (Dar de baja)" >
+ </span>
+
+
+<br>
+
+  </form>
+</div>
+<div id="message" style="display: none;">
+  <h3>La contraseña debe contener:</h3>
+  <p id="letter" class="valid">Una <b>Una letra minuscula </b> letter</p>
+  <p id="capital" class="invalid">Una <b> letra mayuscula</b> letter</p>
+  <p id="number" class="invalid">Un <b>número</b></p>
+  <p id="length" class="invalid">Minimo <b> 8 caracteres</b></p>
+</div>
+
+
+
+
+</script>
+
+{% endblock %}

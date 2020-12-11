@@ -14,14 +14,14 @@ class CrearProducto():
     nombre = StringField('Nombre producto *', validators=[DataRequired(message='Campo requerido')])
     codigo = StringField('Codigo *', validators=[DataRequired(message='Campo requerido')])
     cantidad = StringField('Cantidad *', validators=[DataRequired(message='Campo requerido')])
-    imagen = FileField('Imagen *', validators=[DataRequired(message='Campo requerido')])
-    enviar = SubmitField('Crear Procuto')  
+    #imagen = FileField('Imagen *', validators=[DataRequired(message='Campo requerido')])
+    enviar = SubmitField('Crear Producto')  
   
 class ActualizarProducto():
     nombre = StringField('Nombre producto *', validators=[DataRequired(message='Campo requerido')])
     codigo = StringField('Codigo *', validators=[DataRequired(message='Campo requerido')])
     cantidad = StringField('Cantidad *', validators=[DataRequired(message='Campo requerido')])
-    imagen = FileField('Imagen *', validators=[DataRequired(message='Campo requerido')])
+    #imagen = FileField('Imagen *', validators=[DataRequired(message='Campo requerido')])
     enviar = SubmitField('Actualizar Procuto')  
 
 

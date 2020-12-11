@@ -41,16 +41,15 @@ def login():
         if not isUsernameValid(nickname):
             retornar = 'Datos erroneos'
         elif not isPasswordValid(pwd):
-            retornar = 'Datos erroneos'
-         
+            retornar = 'Datos erroneos'         
         ## ---  logica algoritmica --- ##
         # 1. Validar datos que se reciben
         # 2. comprobar existencia de nickname en base de datos
         # 3. comprobar que la contraseña sea la correcta
         # 4. Permitir acceso a la aplicacion a ese usuario (asignar autorizaciones, tokens, session?)
 	# 5. Retornar a la pagina de galerias de inventarios.
-	return render_template(/inventarios)
-        pass
+    return render_template('inventarios.html')
+    pass
 
 ## ruta que: a) lleva al formulario para nuevo usuario (con GET) ; b) transporta desde el Cliente los datos de manera "oculta" hacia el servidor
 @app.route('/crearUsuario/', methods=['GET','POST'])
@@ -92,19 +91,31 @@ def registro():
 @app.route('/confirmarCorreo/', methods=['GET','POST'])
 def confCorreoUsuario():
     if request.method == 'GET':
-	return render_template('confirmarYGenerarPwd.html')
+        return render_template('confirmarYGenerarPwd.html')
     elif request.method == 'POST':
-	username = escape(request.form['usuario'])
-	pwd      = escape(request.form[''])
+        username = escape(request.form['usuario'])
+        pwd= escape(request.form['thePassword'])
 	##   --- logica Algoritmica ---
-	1. Validar los requisitos de los campos. 
-	2. Conexion a la base de datos Temporal.
-	3. Trasladar los datos de la base de datos temporal a la definitiva.
-	4. Asignar la contraseña en la DB de usuarios (definitiva)
-	5. Enviar mensaje de confirmacion al usuario.
-	6. Redirigir a la pagina de login
-	
-	return render_template('/login')
+	#1. Validar los requisitos de los campos. 
+	#2. Conexion a la base de datos Temporal.
+	#3. Trasladar los datos de la base de datos temporal a la definitiva.
+	#4. Asignar la contraseña en la DB de usuarios (definitiva)
+	#5. Enviar mensaje de confirmacion al usuario.
+	#6. Redirigir a la pagina de login
+        return render_template('/login')
+
+@app.route('/recuperarContrasena', methods=['GET', 'POST'])
+def recupPwd():
+    if request.method == 'GET':
+        return render_template('recuperarPwd.html')
+    elif request.method == 'POST':
+        usuario = escape(request.form['usuario'])
+        ## --- logica algoritmica ---
+        # 1. validar campo usuario
+        # 2. conectar base de datos
+        # 3. comprobar que exista en la base de datos
+        # 4. enviar enlace de generar nueva contraseña al email registrado en DB
+
 
 @app.route('/actualizarUsuario', methods=['GET','POST'])
 def actUsuario():
@@ -112,25 +123,25 @@ def actUsuario():
     ## recibir los campos del formulario (ej. /crearUsuario)
     ##   --- logica Algoritmica ---
 
-@app.route('/nuevoAccesorio/', methods=['GET', 'POST'])
+@app.route('/nuevoAccesorio', methods=['GET', 'POST'])
 def crearAccesorio():
     if request.method == 'GET':
-        return render_template('crearAccesorio.html')
+        return render_template('crearProducto.html')
     elif request.method == 'POST':
         nombre     = escape(request.form['nombre'])
-        codigo     = escape(request.form['codigo'])
+        codigo     = escape(request.form['referencia'])
         cantidad   = escape(request.form['cantidad'])
-        imagen   = escape(request.form['imagen'])
-        return render_template('crearAccesorio.html')
+        #imagen   = escape(request.form['imagen'])
+        return render_template('crearProducto.html')
 	##   --- logica algoritmica ----###
 
 @app.route('/actualizarAccesorio', methods=['GET', 'POST'])
 def ActualizarProducto():
     if request.method == 'GET':
-        return render_template('actualizarAccesorio.html')
+        return render_template('actualizarProducto.html')
     else:
         nombre     = escape(request.form['nombre'])
-        codigo     = escape(request.form['codigo'])
+        codigo     = escape(request.form['referencia'])
         cantidad   = escape(request.form['cantidad'])
         imagen     = escape(request.form['imagen'])
 	# -- logica algoritmica -- 
@@ -140,8 +151,8 @@ def ActualizarProducto():
 	# 4. notificar al usuario la respuesta de exito de la actualizacion
 
 
-        return render_template('actualizarAccesorio.html')
-    ##   --- logica Algoritmica ---
+        return render_template('actualizarProducto.html')
+
 
 
 ## buscar como actualizar con AJAX --
@@ -172,17 +183,17 @@ def actImagen(imagen):  ## no string sino 'path'
 @app.route('/inventario/<string:palabraClaveAccesorio>', methods=['GET'])
 def galeriaInventario(palabraClaveAccesorio):
     if escape(palabraClaveAccesorio) != None or escape(palabraClaveAccesorio).trim(" ")!= "" :
-	## ---  Logica algoritmica  ---
+        pass
+        ## ---  Logica algoritmica  ---
         # consultar en la base de datos la palabra clave ???  cual es la palabra clave de este referencia??
         # recuperar respuesta de la base de datos para alistarla para el cliente.
 	# retornar la respuesta al cliente (incluir en el formulario de respuesta ??)
     else:
-	##  --- logica algoritmica ---
-	# conexion a base de datos
-	# Accesorios por defecto a mostrar: definir cuales se van a mostrar en galeria por defecto
-	# ejecutar consulta
-	# procesay y alistar los datos a enciar
-	return render_template('inventario.html')
-	return render_template('', escape(palabraClaveAccesorio))
-	pass
+        ##  --- logica algoritmica ---
+        # conexion a base de datos
+        # Accesorios por defecto a mostrar: definir cuales se van a mostrar en galeria por defecto
+        # ejecutar consulta
+        # procesay y alistar los datos a enciar
+        return render_template('inventario.html')
+    pass
 
