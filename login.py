@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired
 class formLogin(FlaskForm):  # crear una clase que extiende de FlaskForm
     usuario = StringField('Usuario*', validators=[DataRequired(message='El campo es requerido')])
     clave = PasswordField('Contraseña*', validators=[DataRequired(message='El campo es requerido')])
+    
     #recordar = BooleanField('Manteerse conectado*')
     enviar  = SubmitField('Ingresar*')
     ## meter esto dentro de un try except

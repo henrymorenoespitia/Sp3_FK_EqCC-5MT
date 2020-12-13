@@ -2,12 +2,13 @@
 {%block contenido %}
 	<div class="login__container">
 		<div class="form__container">
-		  <form action="/file" method="POST" class="login__form">
+		  <form action="/login" method="POST" class="login__form">
 			<label for="usuario">Usuario </label> <br />
 			<input
 			  type="text"
 			  value=""
 			  id="usuario"
+			  name="usuario"
 			  placeholder="Ingrese su usuario"
 			  required
 			/><br />
@@ -17,6 +18,7 @@
 			  type="password"
 			  value=""
 			  id="thePassword"
+			  name="thePassword"
 			  placeholder="Ingrese su contraseña"
 			  required
 			/>
@@ -32,7 +34,7 @@
 			</div>
 			<div>
 			  <span>
-				¿ Olvidó su contraseña ?
+				<a href="/recuperarContrasena">¿ Olvidó su contraseña ?</a>
 				<input type="submit" value="Ingresar" />
 			  </span>
 			</div>
@@ -43,9 +45,9 @@
 	  </div>
 
 
-
+<!-- 
 	<form action='' method='POST'>
-		<p> <!-- Usuario -->
+		<p> 
 		{{form.usuario.label}}     <br/>
 		{{form.usuario(size=30) }} </br>
 		
@@ -56,12 +58,8 @@
 		<p>
 		{{form.enviar()}}  <br /> 
 
-		</p><!-- mantener conectado -->
-		<p>
-		</p>
-		<p>
 		</p>
 
 	</form>
-
+-->
 {% endblock %}

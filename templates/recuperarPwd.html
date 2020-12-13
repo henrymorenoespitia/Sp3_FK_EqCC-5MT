@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{%block contenido %}
+	<div class="login__container">
+		<div class="form__container">
+		  <form action="/file" method="POST" class="login__form">
+			<label for="usuario">Usuario </label> <br />
+			<input
+			  type="text"
+			  value=""
+			  id="usuario"
+			  placeholder="Ingrese su usuario"
+			  required
+			/><br />
+			<!-- elemento que alterna la vista de la contraseña -->
+		
+		  </form>
+		</div>
+  
+		<img src=" {{url_for('static', filename='images/logo.png') }}" class="logo" />
+	</div>
+
+
+
+		<div class="login__container">
+			<div class="form__container">
+			  <form action="/file" method="POST" class="login__form">
+				<p> <!-- Usuario -->
+					{{form.usuario.label}}     <br/>
+					{{form.usuario(size=30) }} </br>
+					
+					{{form.enviar()}}  <br /> 
+					</p><!-- mantener conectado -->
+				
+				<!-- elemento que alterna la vista de la contraseña -->
+			
+			  </form>
+			</div>
+
+
+{% endblock %}

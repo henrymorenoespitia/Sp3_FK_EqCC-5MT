@@ -11,7 +11,7 @@ and open the template in the editor.
 
     {% block contenido %}
     <div class="containerPrimero">
-      <form action="/nuevoUsuario" method="post">
+      <form action="/crearUsuario/" method="post">
         <div>
           <label for="nombres">Nombres</label>
           <input type="text" id="nombres" name="nombres" required="" />
@@ -29,6 +29,15 @@ and open the template in the editor.
             pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
             required="required"
           />
+          <div>
+            <label for="repEmail">Email</label>
+            <input
+              type="text"
+              id="repEmail"
+              name="repEmail"
+              pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+              required="required"
+            />
         </div>
         <div>
           <label for="nombreDeUsuario">nombre de usuario</label>
@@ -41,7 +50,7 @@ and open the template in the editor.
         </div>
 
         <span>
-          <input type="submit" value="Crear y Enviar correo" formmethod="post" action="/nuevoUsuario" />
+          <input type="submit" value="Crear y Enviar correo" formmethod="post" action="/crearUsuario/" />
         </span>
 
         <br />
