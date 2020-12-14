@@ -2,7 +2,7 @@
 {%block contenido %}
 	<div class="login__container">
 		<div class="form__container">
-		  <form action="/file" method="POST" class="login__form">
+		  <form action="/enviandoCorreoRecuperacion/" method="POST" class="login__form">
 			<label for="usuario">Usuario </label> <br />
 			<input
 			  type="text"
@@ -23,7 +23,7 @@
 
 		<div class="login__container">
 			<div class="form__container">
-			  <form action="/file" method="POST" class="login__form">
+			  <form action="/enviandoCorreoRecuperacion/" method="POST" class="login__form">
 				<p> <!-- Usuario -->
 					{{form.usuario.label}}     <br/>
 					{{form.usuario(size=30) }} </br>

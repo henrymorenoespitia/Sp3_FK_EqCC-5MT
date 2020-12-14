@@ -67,6 +67,7 @@ def registro():
         apell   = escape(request.form['apellidos'])
         email   = escape(request.form['email'])
         repEm  = escape(request.form['repEmail'])
+        nickname = escape(request.form['nombreDeUsuario'])
         #activo  = escape(request.form['activo'])
         retornar = ''
         if not isUsernameValid(nom): ## falta validad existencia en DB
@@ -127,18 +128,19 @@ def recupPwd():
 
 ##   by Admin
 @app.route('/actualizarUsuario', methods=['GET','POST'])
-def registro():
+def actualizarUsuario():
     if request.method == 'GET':
         return render_template('actualizarUsuario.html', isLogin=0)
     elif request.method == 'POST':
         # usuario = escape(request.form['nickname'])
-        ##   ---- logica algotitmica
+        ##   ---- logica algotitmica   ---- 
         ## buscar en la base de datos el nombre de las personas
         ## retornar la plantilla con los datos del empleado
-        return render_template('')
-
+        return render_template('actualizarUsuario.html', datos= Null, accion = "actualizar")  # datos para rellenar el formulario
+        #                                                                                     # accion = "acctualizar" mas no "eliminar"
 @app.route('/actualizandoUsuario/', methods=['POST'])
-    elif request.method == 'POST':
+def actndoUsu():
+    if request.method == 'POST':
         print("estoy aqui procesando POST")
         nom     = escape(request.form['nombres'])
         apell   = escape(request.form['apellidos'])
@@ -151,7 +153,7 @@ def registro():
         elif not isEmailValid(email):
             retornar += 'Email no valido\n'
         else:
-            retornar = 'Se ha enviado un correo al usuario para confirmar. #Todos los datos estan correctos al validarse\n'
+            retornar = 'Usuario actualizado con exito\n'
             #yag = yagmail.SMPT('', '') # ajustar datos
             #yag.send(to=email, subject='Confirmar cuenta TusAccApp', contents='Active su cuenta generando su contraseña mediante el siguiente enlace:: <a href=#>...enlace..... </a>')
             retornar = render_template('crearUsuario.html', isLogin = 0)
@@ -182,15 +184,27 @@ def crearAccesorio():
         return render_template('crearProducto.html')
 	##   --- logica algoritmica ----###
 
-@app.route('/actualizarAccesorio', methods=['GET', 'POST'])
+@app.route('/actualizarAccesorio/', methods=['GET', 'POST'])
 def ActualizarProducto():
     if request.method == 'GET':
         return render_template('actualizarProducto.html')
-    else:
+    elif request.method == 'POST':
+        # Este post viene despues de darle click en la imagen de inventarios. R
+        
+        nombre = escape(request.form['nombre'])
+        codigo = escape(request.form['referencia'])
+        # validar datos (caracteres html)
+        # Realizar una busqueda en base de datos
+
+@app.route('/actualizandoAccesorio/', methods=['POST'])
+def actzndoAcc():
+    id request.method == 'POST':
         nombre     = escape(request.form['nombre'])
         codigo     = escape(request.form['referencia'])
         cantidad   = escape(request.form['cantidad'])
         imagen     = escape(request.form['imagen'])
+        retornar = ''
+        if 
 	# -- logica algoritmica -- 
 	# 1. validar cada campo. 			<< cantidades no negativas¿?
 	# 2. conexion a la base de datos de accesorios
