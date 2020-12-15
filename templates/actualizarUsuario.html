@@ -21,16 +21,16 @@
       <input type="text" id="nombreDeUsuario" name="nombreDeUsuario" required="">
     </div>
 
-    <span>
-
-      <input type="submit" value="Actualizar" >
-   </span>
-   
-   <span>
-
-    <input type="submit" value="Eliminar (Dar de baja)" >
- </span>
-
+    {% if ACCION %}  
+        <span>
+          <input type="submit" value="Eliminar (Dar de baja)" >
+        </span>
+        
+    {% else %}
+        <span>
+          <input type="submit" value="Actualizar" >
+        </span>
+    {% endif %}
 
 <br>
 

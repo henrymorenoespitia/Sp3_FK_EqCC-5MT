@@ -1,6 +1,5 @@
 
 from application import utils, login
-
 import os
 from flask import Flask, render_template, request
 
@@ -58,7 +57,7 @@ def login():
 
 ## ruta que: a) lleva al formulario para nuevo usuario (con GET) ; b) transporta desde el Cliente los datos de manera "oculta" hacia el servidor
 @app.route('/crearUsuario/', methods=['GET','POST'])
-def registro():
+def crearUsuario():
     if request.method == 'GET':
         return render_template('crearUsuario.html', isLogin=0)
     elif request.method == 'POST':
@@ -74,6 +73,8 @@ def registro():
             retornar += 'Nombre de usuario no valido\n'
         elif not isEmailValid(email):
             retornar += 'Email no valido\n'
+        elif repEmail != email:
+            retornar = 'No coinciden las contraseñas'
         else:
             retornar = 'Se ha enviado un correo al usuario para confirmar. #Todos los datos estan correctos al validarse\n'
             #yag = yagmail.SMPT('', '') # ajustar datos
@@ -119,24 +120,32 @@ def recupPwd():
         return render_template('recuperarPwd.html',title='inicio', form=flogin)
     elif request.method == 'POST':
         usuario = escape(request.form['usuario'])
+        retornar = ''
+        if usuario.trim == "":
+            retornar = 'campo de contraseña no diligenciado !'
         ## --- logica algoritmica ---
         # 1. validar campo usuario
         # 2. conectar base de datos
         # 3. comprobar que exista en la base de datos
-        # 4. enviar enlace de generar nueva contraseña al email registrado en DB
-        # 5. recuperar 
+        # 4. enviar enlace de generar nueva contraseña al email registrado en DB 
 
 ##   by Admin
-@app.route('/actualizarUsuario', methods=['GET','POST'])
-def actualizarUsuario():
+@app.route('/actualizarUsuario/<string:accion>', methods=['GET','POST'])
+def actualizarUsuario(accion):
     if request.method == 'GET':
-        return render_template('actualizarUsuario.html', isLogin=0)
+        print(f"accion es ::  {accion}")
+        isEliminar = False
+        if accion == "eliminar":
+            isEliminar = True
+        print(f"accion es ::  {accion}")
+        return render_template('actualizarUsuario.html', ACCION = isEliminar, isLogin = 0)
     elif request.method == 'POST':
         # usuario = escape(request.form['nickname'])
         ##   ---- logica algotitmica   ---- 
         ## buscar en la base de datos el nombre de las personas
         ## retornar la plantilla con los datos del empleado
-        return render_template('actualizarUsuario.html', datos= Null, accion = "actualizar")  # datos para rellenar el formulario
+        
+        return render_template('actualizarUsuario.html', datos= Null, ACCION = isEliminar)  # datos para rellenar el formulario
         #                                                                                     # accion = "acctualizar" mas no "eliminar"
 @app.route('/actualizandoUsuario/', methods=['POST'])
 def actndoUsu():
@@ -171,6 +180,9 @@ def actndoUsu():
     else: 
         return render_template('crearUsuario.html')
 
+@app.route('/eliminandoUsuario')
+def eliminandoUsuario():
+   pass
 
 @app.route('/nuevoAccesorio', methods=['GET', 'POST'])
 def crearAccesorio():
@@ -184,10 +196,13 @@ def crearAccesorio():
         return render_template('crearProducto.html')
 	##   --- logica algoritmica ----###
 
-@app.route('/actualizarAccesorio/', methods=['GET', 'POST'])
-def ActualizarProducto():
+@app.route('/actualizarAccesorio/<string:accion>', methods=['GET', 'POST'])
+def ActualizarProducto(accion):
     if request.method == 'GET':
-        return render_template('actualizarProducto.html')
+        isEliminar= False
+        if accion == 'eliminar':
+            isEliminar = True
+        return render_template('actualizarProducto.html', isLogin=0, ACCION= isEliminar)
     elif request.method == 'POST':
         # Este post viene despues de darle click en la imagen de inventarios. R
         
@@ -196,21 +211,24 @@ def ActualizarProducto():
         # validar datos (caracteres html)
         # Realizar una busqueda en base de datos
 
-@app.route('/actualizandoAccesorio/', methods=['POST'])
+@app.route('/actualizandoAccesorio', methods=['POST'])
 def actzndoAcc():
-    id request.method == 'POST':
+    if request.method == 'POST':
         nombre     = escape(request.form['nombre'])
         codigo     = escape(request.form['referencia'])
         cantidad   = escape(request.form['cantidad'])
-        imagen     = escape(request.form['imagen'])
+        #imagen     = escape(request.form['imagen'])
+        print(nombre)
+        
         retornar = ''
-        if 
-	# -- logica algoritmica -- 
-	# 1. validar cada campo. 			<< cantidades no negativas¿?
-	# 2. conexion a la base de datos de accesorios
-	# 3. ejecutar la actualizacion de la base de datos.
-	# 4. notificar al usuario la respuesta de exito de la actualizacion
-
+        nombre.string
+        #if nombre.string == "":
+        #    retornar += 'no se permite nombre vacio'
+        # -- logica algoritmica -- 
+        # 1. validar cada campo. 			<< cantidades no negativas¿?
+        # 2. conexion a la base de datos de accesorios
+        # 3. ejecutar la actualizacion de la base de datos.
+        # 4. notificar al usuario la respuesta de exito de la actualizacion
 
         return render_template('actualizarProducto.html')
 
