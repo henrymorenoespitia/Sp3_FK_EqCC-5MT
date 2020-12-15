@@ -30,6 +30,6 @@ def desconectar(conexion):
 def ejecutar_consulta(con, sql):
     try:
         cur= con.execute(sql).fetchall()
-    except ex:
+    except:
         sal = None
     return sal

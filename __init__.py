@@ -7,9 +7,9 @@ from flask import Flask, render_template, request
 
 from markupsafe import escape
 import yagmail as yagmail
-from utils import isPasswordValid, isUsernameValid, isEmailValid
+from application.utils import isPasswordValid, isUsernameValid, isEmailValid
 
-from login import formLogin 
+from application.login import formLogin 
 
 #from app.forms import formLogin
 
