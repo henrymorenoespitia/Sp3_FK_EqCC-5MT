@@ -47,3 +47,13 @@ def ejecutar_consulta_sele(con, sql):
     except:
         sal = None
     return sal
+
+######
+
+def ejecutar_consulta_accion(con, sql):
+    try:
+        cur = con.cursor()
+        sal = cur.execute(sql)
+    except :
+        sal = 0
+    return sal

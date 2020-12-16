@@ -2,7 +2,8 @@ from db import conectar, ejecutar_consulta_sele, desconectar
 
 con = conectar()
 if con != None:
-    sentencia = "SELECT nombres, apellidos, nickname, clave, estado FROM usuarios"    
+    #sentencia = "SELECT nombres, apellidos, nickname, email, clave, estado FROM usuarios"    
+    sentencia =  """INSERT INTO usuarios(nombres, apellidos, estado, email, nickname, clave) VALUES() ;"""
     res = ejecutar_consulta_sele(con, sentencia)
     if res != None:
         for fila in res:
@@ -13,3 +14,5 @@ if con != None:
     desconectar(con)
 else:
     print("error al conectarse a la base de datos")
+
+
