@@ -26,6 +26,18 @@ class ActualizarProducto():
     enviar = SubmitField('Actualizar Procuto')  
 
 
+class CrearUsuario(FlaskForm):
+    name = StringField('Nombres *', validators=[DataRequired(message='Campo Requerido')])
+    lname = StringField('Apellidos *', validators=[DataRequired(message='Campo Requerido')])
+    ema = StringField('E-Mail *', validators=[DataRequired(message='Campo Requerido')])
+    repEma = StringField('Verificar E-Mail *', validators=[DataRequired(message='Campo Requerido')])
+    crear = SubmitField('Crear') 
 
+class ActualizarUsuario(FlaskForm):
+    name = StringField('Nombres *', validators=[DataRequired(message='Campo Requerido')])
+    lname = StringField('Apellidos *', validators=[DataRequired(message='Campo Requerido')])
+    ema = StringField('E-Mail *', validators=[DataRequired(message='Campo Requerido')])
+    repEma = StringField('Verificar E-Mail *', validators=[DataRequired(message='Campo Requerido')])
+    crear = SubmitField('Crear')
 
 

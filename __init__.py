@@ -2,15 +2,11 @@
 from application import utils, login
 import os
 from flask import Flask, render_template, request
-
 #from app import app
-
 from markupsafe import escape
 import yagmail as yagmail
 from application.utils import isPasswordValid, isUsernameValid, isEmailValid
-
-from application.login import formLogin 
-
+from application.login import formLogin, CrearUsuario 
 #from app.forms import formLogin
 
 app = Flask(__name__)
@@ -29,11 +25,12 @@ def index():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    # 1. Atender los métodos del formulario GET Y POST
     if request.method == 'GET':
         flogin = formLogin()
         return render_template('loginFormPy.html',title='inicio', form=flogin, isLogin= 1 )
     elif request.method == 'POST':
-        ## Aqui va el codigo correspondiente
+        # 2. Recuperar datos del formulario
         nickname = escape(request.form['usuario'])
         pwd      = escape(request.form['thePassword'])
         retornar = ''
@@ -41,7 +38,7 @@ def login():
             retornar = 'Usuario y/o contraseña no validos'
         elif not isPasswordValid(pwd):
             retornar = 'Usuario y/o contraseña no validos'
-        ##    
+
         ## realizar las consultas a la DB    
         if True:
             retornar = render_template('inventario.html', isLogin=0)
@@ -58,39 +55,43 @@ def login():
 ## ruta que: a) lleva al formulario para nuevo usuario (con GET) ; b) transporta desde el Cliente los datos de manera "oculta" hacia el servidor
 @app.route('/crearUsuario/', methods=['GET','POST'])
 def crearUsuario():
+    # 1. Atender los métodos del formulario
     if request.method == 'GET':
-        return render_template('crearUsuario.html', isLogin=0)
+        inst = CrearUsuario()
+        return render_template('crearUsuario.html',form = inst, isLogin=0)
     elif request.method == 'POST':
-        print("estoy aqui procesando POST")
-        nom     = escape(request.form['nombres'])
-        apell   = escape(request.form['apellidos'])
-        email   = escape(request.form['email'])
-        repEm  = escape(request.form['repEmail'])
-        nickname = escape(request.form['nombreDeUsuario'])
-        #activo  = escape(request.form['activo'])
+        # 2. Recuperar los datos del formulario
+        name = escape(request.form['name'])
+        lname = escape(request.form['lname'])
+        ema = escape(request.form['ema'])
+        repEma = escape(request.form['repEma'])
+
+        # 3. Validar del lado del servidor
         retornar = ''
-        if not isUsernameValid(nom): ## falta validad existencia en DB
+        if not isUsernameValid(name):
             retornar += 'Nombre de usuario no valido\n'
-        elif not isEmailValid(email):
-            retornar += 'Email no valido\n'
-        elif repEmail != email:
-            retornar = 'No coinciden las contraseñas'
+        elif not isEmailValid(ema):
+            retornar += 'E-mail no valido\n'
+        elif ema != repEma:
+            retornar = 'Los E-Mails no coinciden'
         else:
-            retornar = 'Se ha enviado un correo al usuario para confirmar. #Todos los datos estan correctos al validarse\n'
-            #yag = yagmail.SMPT('', '') # ajustar datos
-            #yag.send(to=email, subject='Confirmar cuenta TusAccApp', contents='Active su cuenta generando su contraseña mediante el siguiente enlace:: <a href=#>...enlace..... </a>')
-            retornar = render_template('crearUsuario.html', isLogin = 0)
-            #retornar = f"usuario {nom} email {email}"
+            # Buscar la forma de hacer el efecto "pop up" en los diseños
+            retornar = 'Se ha enviado un correo al usuario para confirmar. Todos los datos estan correctos al validarse\n'
+
        	return retornar
-        """  --     Lógica algoritmica     --
-        1. validar los datos que vienen desde el formulario del Cliente <--- realizar las funciones en el archivo 'utils.py' de validaciones
-        2. Conexion a la base de datos 
-        3. Validar existencia del registro en la DB
-        4. Insercion en DB Tabla TEMPORAL !!
-        5. Enviar correo de confirmacion al usuario.
-        6. al recibir la  confirmacion (/confirmarCorreo)-->Insercion en DB tabla Usuarios PERMANENTE !!.
-        7. Enviar respuesta al Cliente de exito al crear usuario 
-        """
+#        """  --     Lógica algoritmica     --
+#        1. validar los datos que vienen desde el formulario del Cliente <--- realizar las funciones en el archivo 'utils.py' de validaciones
+
+#        3. Validar existencia del registro en la DB
+#        4. Insercion en DB, estado 'P'
+#        5. Enviar correo de confirmacion al usuario.
+                    #yag = yagmail.SMPT('', '') # ajustar datos
+                    #yag.send(to=email, subject='Confirmar cuenta TusAccApp', contents='Active su cuenta generando su contraseña mediante el siguiente enlace:: <a href=#>...enlace..... </a>')
+                    #retornar = render_template('crearUsuario.html', isLogin = 0)
+                    #retornar = f"usuario {nom} email {email}"
+#        6. al recibir la  confirmacion (/confirmarCorreo)-->Cambiar estado a 'A'.
+#        7. Enviar respuesta al Cliente de exito al crear usuario 
+#        """
     else: 
         return render_template('crearUsuario.html')
 
