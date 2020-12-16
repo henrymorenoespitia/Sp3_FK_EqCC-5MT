@@ -11,46 +11,24 @@ and open the template in the editor.
 
     {% block contenido %}
     <div class="containerPrimero">
-      <form action="/crearUsuario/" method="post">
+      <form action="/crearUsuario/" method="POST">
         <div>
-          <label for="nombres">Nombres</label>
-          <input type="text" id="nombres" name="nombres" required="" />
+          <div class="label">{{ form.name.label }}</div>
+          <div>{{ form.name() }}</div>
         </div>
         <div>
-          <label for="apellidos">Apellidos</label>
-          <input type="text" id="apellidos" name="apellidos" required="" />
+          <div class="label">{{ form.lname.label }}</div>
+          <div>{{ form.lname() }}</div>
         </div>
         <div>
-          <label for="email">Email</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
-            required="required"
-          />
+          <div class="label">{{ form.ema.label }}</div>
+          <div>{{ form.ema() }}</div>
           <div>
-            <label for="repEmail">Email</label>
-            <input
-              type="text"
-              id="repEmail"
-              name="repEmail"
-              pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
-              required="required"
-            />
+            <div class="label">{{ form.repEma.label }}</div>
+            <div>{{ form.repEma() }}</div>
         </div>
-        <div>
-          <label for="nombreDeUsuario">nombre de usuario</label>
-          <input
-            type="text"
-            id="nombreDeUsuario"
-            name="nombreDeUsuario"
-            required=""
-          />
-        </div>
-
         <span>
-          <input type="submit" value="Crear y Enviar correo" formmethod="post" action="/crearUsuario/" />
+          <div>{{ form.crear() }}</div>
         </span>
 
         <br />
