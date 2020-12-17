@@ -1,38 +1,61 @@
-
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <
-    <!-- seccion de campos para email y contraseña :: poder VER la contraseña y validar "seguridad" de contraseña -->
+<!-- seccion de campos para email y contraseña :: poder VER la contraseña y validar "seguridad" de contraseña -->
 
-    {% extends "base.html" %}
+{% extends "base.html" %} {% block contenido %}
+<div class="containerPrimero">
+  <form action="/crearUsuario/" method="post">
+    <label for="nombres">Nombres</label>
+    <input
+      type="text"
+      id="nombres"
+      name="nombres"
+      placeholder="Ingrese su nombre"
+      required
+    />
 
-    {% block contenido %}
-    <div class="containerPrimero">
-      <form action="/crearUsuario/" method="POST">
-        <div>
-          <div class="label">{{ form.name.label }}</div>
-          <div>{{ form.name() }}</div>
-        </div>
-        <div>
-          <div class="label">{{ form.lname.label }}</div>
-          <div>{{ form.lname() }}</div>
-        </div>
-        <div>
-          <div class="label">{{ form.ema.label }}</div>
-          <div>{{ form.ema() }}</div>
-          <div>
-            <div class="label">{{ form.repEma.label }}</div>
-            <div>{{ form.repEma() }}</div>
-        </div>
-        <span>
-          <div>{{ form.crear() }}</div>
-        </span>
+    <label for="apellidos">Apellidos</label>
+    <input
+      type="text"
+      id="apellidos"
+      name="apellidos"
+      placeholder="Ingrese sus apellidos"
+      required
+    />
 
-        <br />
-      </form>
-    </div>
-    {% endblock %}
-    
+    <label for="repEmail">Email</label><br />
+    <input
+      type="text"
+      id="repEmail"
+      name="repEmail"
+      pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+      required="required"
+      placeholder="Ingrese su Email"
+    />
+
+    <label for="nombreDeUsuario">Nombre de usuario</label><br />
+    <input
+      type="text"
+      id="nombreDeUsuario"
+      name="nombreDeUsuario"
+      placeholder="Ingrese su usuario"
+      required=""
+    />
+
+    <span>
+      <input
+        type="submit"
+        value="Crear y Enviar correo"
+        formmethod="post"
+        action="/crearUsuario/"
+      />
+    </span>
+
+    <br />
+  </form>
+</div>
+{% endblock %}

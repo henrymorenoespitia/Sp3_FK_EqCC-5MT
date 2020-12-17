@@ -1,63 +1,91 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>Galeria</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/estiloFormyBotones.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/inventario.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/estiloFormyBotones.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/inventario.css') }}"
+    />
   </head>
   <body>
-
     {% if isLogin==0 %}
-   
-        <div class="contenedor" style="height: 62px; width: 1213px;">
-          <div style="height: 67px;" class="topnav"> 
-            <a href="#" class="active"><img src="https://cdn.icon-icons.com/icons2/936/PNG/128/home_icon-icons.com_73532.png" width="30px"></a> 
-            <a href="#" style="width: 61px; height: 79px;">TIENDA</a>
-            <a href="#" style="width: 164px; height: 73px;">CONTACTANOS</a> 
-            <a href="#" style="margin-left: 3px; width: 94px; height: 83px;">MÁS</a> 
-            <input style="width: 20%;" type="text" class="buscador" name="buscar" text="buscar" size="40px" maxlength="25" style="margin-top: 20px; margin-left: 200px;">
-            <img src="https://cdn.icon-icons.com/icons2/568/PNG/128/search_icon-icons.com_54424.png" alt="" style="width: 17px; height: 17px;">
-            
-            </div>
-        </div>
 
-        <div class="menu boton">       
-            <img class="icon" src="https://cdn.icon-icons.com/icons2/1141/PNG/128/1486395871-menu_80607.png" alt="" >
-            <nav class="menu-navegacion">
-                <label class="btnUser" id="btnUser" style="cursor:hand; border:0px">Usuario</label>
+    <div class="contenedor">
+      <div style="height: 67px" class="topnav">
+        <a href="#" class="active"
+          ><img
+            src="https://cdn.icon-icons.com/icons2/936/PNG/128/home_icon-icons.com_73532.png"
+            width="30px"
+        /></a>
+        <a href="#">TIENDA</a>
+        <a href="#">CONTÁCTANOS</a>
+        <a href="#">MÁS</a>
+        <input
+          style="width: 20%"
+          type="text"
+          class="buscador"
+          name="buscar"
+          text="buscar"
+          size="40px"
+          maxlength="25"
+          style="margin-top: 20px; margin-left: 200px"
+        />
+        <img
+          src="https://cdn.icon-icons.com/icons2/568/PNG/128/search_icon-icons.com_54424.png"
+          style="width: 17px; height: 17px"
+        />
+      </div>
+    </div>
 
-          <a href="/login" class="elegida" style="cursor:hand">Iniciar Sesion</a>
-                
-                <a href="/crearUsuario" class="subelegida us" >Agregar Usuario</a>
-                <a href="/actualizarUsuario/actualizar" class="subelegida us1">Modificar Usuario</a>
-                <a href="/actualizarUsuario/eliminar" class="subelegida us2">Eliminar Usuario</a>
-                <label href="" class="btnProducto" id="btnProducto" style="cursor:hand">Producto</label>
-                <a href="/nuevoAccesorio" class="subelegida pro">Agregar Producto</a>
-                <a href="/actualizarAccesorio" class="subelegida pro1">Modificar Producto</a>
-                <a href="/actualizarAccesorio" class="subelegida pro2">Eliminar Producto</a>
-          <a href="/login" class="elegida" style="cursor:hand">Cerrar sesión</a>
-                
-          <a href="/confirmarCorreo" class="elegida" style="cursor:hand">Confirmar Correo</a>
-                
-            </nav>
-        </div>
+    <div class="menu boton">
+      <img
+        class="icon"
+        src="https://cdn.icon-icons.com/icons2/1141/PNG/128/1486395871-menu_80607.png"
+        alt=""
+      />
+      <nav class="menu-navegacion">
+        <label class="btnUser" id="btnUser" style="cursor: hand; border: 0px"
+          >Usuario</label
+        >
 
-        <script src="{{url_for('static', filename='js/inventario.js') }}">
-        </script>
-        
-    {% endif %}
+        <a href="/login" class="elegida" style="cursor: hand">Iniciar Sesion</a>
 
-    {% block contenido %}
+        <a href="/crearUsuario" class="subelegida us">Agregar Usuario</a>
+        <a href="/actualizarUsuario/actualizar" class="subelegida us1"
+          >Modificar Usuario</a
+        >
+        <a href="/actualizarUsuario/eliminar" class="subelegida us2"
+          >Eliminar Usuario</a
+        >
+        <label href="" class="btnProducto" id="btnProducto" style="cursor: hand"
+          >Producto</label
+        >
+        <a href="/nuevoAccesorio" class="subelegida pro">Agregar Producto</a>
+        <a href="/actualizarAccesorio" class="subelegida pro1"
+          >Modificar Producto</a
+        >
+        <a href="/actualizarAccesorio" class="subelegida pro2"
+          >Eliminar Producto</a
+        >
+        <a href="/login" class="elegida" style="cursor: hand">Cerrar sesión</a>
 
-    {% endblock %}
+        <a href="/confirmarCorreo" class="elegida" style="cursor: hand"
+          >Confirmar Correo</a
+        >
+      </nav>
+    </div>
 
+    <script src="{{url_for('static', filename='js/inventario.js') }}"></script>
 
+    {% endif %} {% block contenido %} {% endblock %}
   </body>
 </html>
-
-
-
-
-
