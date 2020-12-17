@@ -12,6 +12,7 @@ from application.db import consulta_accion, consulta_seleccion
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24) ## random 24 bits
+app.config['UPLOAD_FOLDER'] = './imagenes'
 
 ## error al ejecutar Flask object has no attribute 'error_handler'
 ##@app.error_handler(404)
@@ -214,19 +215,24 @@ def eliminandoUsuario():
 @app.route('/nuevoAccesorio', methods=['GET', 'POST'])
 def crearAccesorio():
     if request.method == 'GET':
-        inst = CrearProducto()
-        return render_template('crearProducto.html', form = inst)
+        
+        return render_template('crearProducto.html')
     elif request.method == 'POST':
         nombre      = escape(request.form['nombre'])
         precio      = escape(request.form['precio'])
         codigo      = escape(request.form['referencia'])
         cantidad    = escape(request.form['cantidad'])
-        #imagen      = request.files['Imagen']
-        #filename    = secure_filename(imagen.filename)
-        #imagen_string = base64.b64encode(imagen.read())
-        sql = f"INSERT INTO accesorios (nombre, referencia, existencias, precio) VALUES('{nombre}','{codigo}','{cantidad}','{precio}')"
+        uploaded_file = request.files['archivo']
+        if uploaded_file.filename != '':
+            uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename))
+            imagen_string =  base64.b64encode(uploaded_file.read())
+                
+        flash("Productoagregado con Exito")
+        sql = f"INSERT INTO accesorios (nombre, referencia, existencias, precio, imagen) VALUES('{nombre}','{codigo}','{cantidad}','{precio}','{uploaded_file.filename}')"
         consulta_seleccion(sql)
+        print(nombre)
         return render_template('crearProducto.html')
+        
 
 @app.route('/actualizarAccesorio/<string:accion>', methods=['GET', 'POST'])
 def ActualizarProducto(accion):
