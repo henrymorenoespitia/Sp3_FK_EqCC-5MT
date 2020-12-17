@@ -63,12 +63,15 @@ def login():
                             return render_template('inventario.html', title='galeria')                    
                     else:
                         retornar = 'Usuario o contraseña invalidos'
-                print(retornar)   
+                        print(retornar)
+                        flash(retornar)
+                        return render_template('loginFormPy.html',title='inicio', form=formLogin(), isLogin= 1 )   
             except:
                 print('Error')
                 return render_template('loginFormPy.html',title='inicio', form=formLogin(), isLogin= 1 )
         else:
             return render_template('loginFormPy.html',title='inicio', form=formLogin(), isLogin= 1 )  
+
 
 @app.route('/logout/')
 def logout():
