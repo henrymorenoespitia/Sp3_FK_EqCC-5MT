@@ -4,6 +4,7 @@
 
 <!-- seccion de campos para email y contraseña :: poder VER la contraseña y validar "seguridad" de contraseña -->
 
+<form action="" method="POST" enctype="multipart/form-data">
 <div class="containerPrimero">
     <form action="/nuevoAccesorio" method="POST">
       <div>
@@ -32,19 +33,20 @@
       </div>
       <div>
         <label for="cantidad">cantidad en bodega</label>
-        <input type="number" id="cantidad" name="cantidad" required="" />
+        <input type="text" id="cantidad" name="cantidad" required="" />
       </div>
-
+      
       <div>
-        <label for="imagen">Cargar Imagen</label>
-        <input type="file" id="imagen" name="Imagen"  />
+                
+          <input type="file" name="archivo" id="archivo">
+        
       </div>
       <span>
         <input type="submit" value="Crear " />
       </span>
-
+   
       <br />
-    </form>
+    
   </div>
   <div id="message" style="display: none">
     <h3>La contraseña debe contener:</h3>
@@ -53,6 +55,7 @@
     <p id="number" class="invalid">Un <b>número</b></p>
     <p id="length" class="invalid">Minimo <b> 8 caracteres</b></p>
   </div>
+  </form>
 
 
 {% endblock %}
