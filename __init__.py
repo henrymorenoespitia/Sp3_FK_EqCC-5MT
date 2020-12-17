@@ -214,14 +214,19 @@ def eliminandoUsuario():
 @app.route('/nuevoAccesorio', methods=['GET', 'POST'])
 def crearAccesorio():
     if request.method == 'GET':
-        return render_template('crearProducto.html')
+        inst = CrearProducto()
+        return render_template('crearProducto.html', form = inst)
     elif request.method == 'POST':
-        nombre     = escape(request.form['nombre'])
-        codigo     = escape(request.form['referencia'])
-        cantidad   = escape(request.form['cantidad'])
-        #imagen   = escape(request.form['imagen'])
+        nombre      = escape(request.form['nombre'])
+        precio      = escape(request.form['precio'])
+        codigo      = escape(request.form['referencia'])
+        cantidad    = escape(request.form['cantidad'])
+        #imagen      = request.files['Imagen']
+        #filename    = secure_filename(imagen.filename)
+        #imagen_string = base64.b64encode(imagen.read())
+        sql = f"INSERT INTO accesorios (nombre, referencia, existencias, precio) VALUES('{nombre}','{codigo}','{cantidad}','{precio}')"
+        consulta_seleccion(sql)
         return render_template('crearProducto.html')
-	##   --- logica algoritmica ----###
 
 @app.route('/actualizarAccesorio/<string:accion>', methods=['GET', 'POST'])
 def ActualizarProducto(accion):
