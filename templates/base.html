@@ -10,43 +10,37 @@
   <body>
 
     {%if isLogin != 1%}
-      
+     
         <div class="contenedor" style="height: 62px; width: 1213px;">
           <div style="" class="topnav"> 
-            <a href="#" class="active"><img src="https://cdn.icon-icons.com/icons2/936/PNG/128/home_icon-icons.com_73532.png" width="20px"></a> 
-            <a href="#" style="">TIENDA</a>
-            <a href="#" style="">CONTACTANOS</a> 
-            <a href="#" style="">MAS</a> 
-            <p> </p>
-           
-            
+            {% if 'usr_rol' in session %}
+
+            <a href="/crearUsuario" class="subelegida us" >Agregar Usuario</a>
+            <a href="/actualizarUsuario/actualizar" class="subelegida us1">Modificar Usuario</a>
+            <a href="/actualizarUsuario/eliminar" class="subelegida us2">Eliminar Usuario</a>
+            <a href="/nuevoAccesorio" class="subelegida pro">Agregar Producto</a>
+            <a href="/actualizandoAccesorio" class="subelegida pro1">Modificar Producto</a>
+            <a href="/actualizandoAccesorio" class="subelegida pro2">Eliminar Producto</a>
+            {% elif 'usr_id' in session %}
+            <a href="/galeria" class="subelegida pro"> Galeria</a>
+            <a href="/confirmarCorreo/" class="subelegida pro"> Cambiar contraseña</a>
+            {% endif %}
             </div>
         </div>
 
-        <div class="menu boton">       
-            <img class="icon" src="https://cdn.icon-icons.com/icons2/1141/PNG/128/1486395871-menu_80607.png" alt="" >
-            <nav class="menu-navegacion">
-                <label class="btnUser" id="btnUser" style="cursor:hand; border:0px">Usuario</label>
 
-          <a href="/login" class="elegida" style="cursor:hand">Iniciar Sesion</a>
-                
-                <a href="/crearUsuario" class="subelegida us" >Agregar Usuario</a>
-                <a href="/actualizarUsuario/actualizar" class="subelegida us1">Modificar Usuario</a>
-                <a href="/actualizarUsuario/eliminar" class="subelegida us2">Eliminar Usuario</a>
-                <label href="" class="btnProducto" id="btnProducto" style="cursor:hand">Producto</label>
-                <a href="/nuevoAccesorio" class="subelegida pro">Agregar Producto</a>
-                <a href="/actualizandoAccesorio" class="subelegida pro1">Modificar Producto</a>
-                <a href="/actualizandoAccesorio" class="subelegida pro2">Eliminar Producto</a>
-          <a href="/login" class="elegida" style="cursor:hand">Cerrar sesión</a>
-                
-          <a href="/confirmarCorreo" class="elegida" style="cursor:hand">Confirmar Correo</a>
-                
+        {% if 'usr_id' in session %}
+
+        <div class="menu boton">       
+            <img class="icon" src="https://cdn.icon-icons.com/icons2/1141/PNG/128/1486395871-menu_80607.png" alt="" style="top: 10px; right: 20px;" >
+            <nav class="menu-navegacion">
+            <a href="/logout" class="elegida" style="cursor:hand">Cerrar sesión</a>                      
             </nav>
         </div>
 
         <script src="{{url_for('static', filename='js/inventario.js') }}">
         </script>
-        
+        {% endif %}
     
     {% endif %}
  
@@ -58,6 +52,3 @@
 
   </body>
 </html>
-
-
-
