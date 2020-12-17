@@ -1,5 +1,5 @@
 
-from application import utils, login
+from application import utils, login, db
 import os
 from flask import Flask, render_template, request
 #from app import app
@@ -7,6 +7,7 @@ from markupsafe import escape
 import yagmail as yagmail
 from application.utils import isPasswordValid, isUsernameValid, isEmailValid
 from application.login import formLogin, CrearUsuario 
+from application.db import consulta_accion, consulta_seleccion
 #from app.forms import formLogin
 
 app = Flask(__name__)
@@ -55,33 +56,59 @@ def login():
 ## ruta que: a) lleva al formulario para nuevo usuario (con GET) ; b) transporta desde el Cliente los datos de manera "oculta" hacia el servidor
 @app.route('/crearUsuario/', methods=['GET','POST'])
 def crearUsuario():
-    # 1. Atender los métodos del formulario
-    if request.method == 'GET':
-        inst = CrearUsuario()
-        return render_template('crearUsuario.html',form = inst, isLogin=0)
-    elif request.method == 'POST':
-        # 2. Recuperar los datos del formulario
-        name = escape(request.form['name'])
-        lname = escape(request.form['lname'])
-        ema = escape(request.form['ema'])
-        repEma = escape(request.form['repEma'])
+#        """  --     Lógica algoritmica     --
+#   1. Atender los métodos del formulario
+    #try:
+        if request.method == 'GET':
+            inst = CrearUsuario()
+            return render_template('crearUsuario.html',form = inst, isLogin=0)
+        elif request.method == 'POST':
+#   2. Recuperar los datos del formulario
+            name = escape(request.form['name'])
+            lname = escape(request.form['lname'])
+            ema = escape(request.form['ema'])
+            repEma = escape(request.form['repEma'])
 
-        # 3. Validar del lado del servidor
-        retornar = ''
-        if not isUsernameValid(name):
-            retornar += 'Nombre de usuario no valido\n'
-        elif not isEmailValid(ema):
-            retornar += 'E-mail no valido\n'
-        elif ema != repEma:
-            retornar = 'Los E-Mails no coinciden'
-        else:
-            # Buscar la forma de hacer el efecto "pop up" en los diseños
-            retornar = 'Se ha enviado un correo al usuario para confirmar. Todos los datos estan correctos al validarse\n'
+#   3. Validar del lado del servidor
+            retornar = ''
+            if not isUsernameValid(name):
+                retornar += 'Nombre de usuario no valido\n'
+            elif not isEmailValid(ema):
+                retornar += 'E-mail no valido\n'
+            elif ema != repEma:
+                retornar = 'Los E-Mails no coinciden'
+            else:               
+#   4. Comprobar en base de datos
+                query = f"SELECT estado FROM usuarios where email = '{ema}'"
+                res = consulta_seleccion(query)
+#   5. Inserción en DB, estado 'P'
+                if res == None or len(res)==0:
+                    query = "INSERT INTO usuarios (nombres, apellidos, email, estado) VALUES (?,?,?,?)"
+                    res = consulta_accion(query,(name, lname, ema, 'P'))
+                    if res != None:
+                        ### Buscar la forma de hacer el efecto "pop up" en los diseños
+                        #retornar = 'Datos registrados con éxito, se envió un correo de verificación'
+#   6. Enviar correo de verificación
+#   7. Al recibir confirmación, cambiar estado a 'A'
+                    #IsVerificado = true
+                        retornar = 'Usuario Confirmado'
+                        query = "UPDATE usuarios SET estado = 'A' WHERE email=(?)"
+                        res = consulta_accion(query, ema)
+                else:
+                    retornar = 'No se pueden registrar usuarios con el mismo E-Mail'
+#   8. Enviar respuesta al cliente de éxito al crear un usuario
+                        
+        else: 
+            inst = CrearUsuario()
+            return render_template('crearUsuario.html',form = inst, isLogin=0)
+    #except:
+        #retornar = 'Error'
 
-       	return retornar
+        return retornar
+
+
 #        """  --     Lógica algoritmica     --
 #        1. validar los datos que vienen desde el formulario del Cliente <--- realizar las funciones en el archivo 'utils.py' de validaciones
-
 #        3. Validar existencia del registro en la DB
 #        4. Insercion en DB, estado 'P'
 #        5. Enviar correo de confirmacion al usuario.
@@ -92,8 +119,7 @@ def crearUsuario():
 #        6. al recibir la  confirmacion (/confirmarCorreo)-->Cambiar estado a 'A'.
 #        7. Enviar respuesta al Cliente de exito al crear usuario 
 #        """
-    else: 
-        return render_template('crearUsuario.html')
+
 
 #################################
 ## Preguntar si maneja algun metodo o si se maneja un token el enlace que llegara al correo??? 
