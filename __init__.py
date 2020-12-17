@@ -20,7 +20,7 @@ app.secret_key = os.urandom(24) ## random 24 bits
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Pagina principal del sitio"
+    return render_template("login.html")
 
 
 @app.route('/login', methods=['GET','POST'])
