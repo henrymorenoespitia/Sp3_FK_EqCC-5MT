@@ -21,38 +21,68 @@ app.config['UPLOAD_FOLDER'] = './imagenes'
 
 @app.route('/')
 @app.route('/index')
-def index():
-    return render_template("login.html")
-
-
 @app.route('/login', methods=['GET','POST'])
 def login():
-    # 1. Atender los métodos del formulario GET Y POST
     if request.method == 'GET':
         flogin = formLogin()
         return render_template('loginFormPy.html',title='inicio', form=flogin, isLogin= 1 )
     elif request.method == 'POST':
-        # 2. Recuperar datos del formulario
-        nickname = escape(request.form['usuario'])
-        pwd      = escape(request.form['thePassword'])
+        ## Aqui va el codigo correspondiente
+        ema = escape(request.form['usuario'])
+        pwd = escape(request.form['thePassword'])
         retornar = ''
-        if not isUsernameValid(nickname):
+        if ema == '' or pwd == '':
             retornar = 'Usuario y/o contraseña no validos'
-        elif not isPasswordValid(pwd):
-            retornar = 'Usuario y/o contraseña no validos'
+        print(retornar, ema, pwd)
+        if retornar == '':
+            try:
+                sql = f"SELECT estado, clave, user FROM usuarios WHERE email='{ema}'"
+                res = consulta_seleccion(sql)
+                print(res)
+                if res==None or len(res)==0:
+                    retornar = 'Usuario o contraseña invalidos'
+                else:
+                    # Se recupera la clave que proviene de la base de datos
+                    clavebd = res[0][1]
+                    estadobd = res[0][0]
+                    userbd = res[0][2]
+                    print('')
+                    #if check_password_hash(clavebd,cla):
+                    if pwd == clavebd:
+                        # Esta modificación obedece a la implementación de borrado lógico
+                        if estadobd == 'I':
+                            retornar = 'El usuario se encuentra inhabilitado para iniciar sesión'
+                        elif estadobd == 'P':
+                            retornar = 'El usuario no activado su cuenta'
+                        else:
+                            session.clear()
+                            session['usr_id'] = ema
+                            if userbd == 'admi':
+                                session['usr_rol']= userbd
+                            retornar = 'Acceso concedido'
+                            return render_template('inventario.html', title='galeria')                    
+                    else:
+                        retornar = 'Usuario o contraseña invalidos'
+                print(retornar)   
+            except:
+                print('Error')
+                return render_template('loginFormPy.html',title='inicio', form=formLogin(), isLogin= 1 )
+        else:
+            return render_template('loginFormPy.html',title='inicio', form=formLogin(), isLogin= 1 )  
 
-        ## realizar las consultas a la DB    
-        if True:
-            retornar = render_template('inventario.html', isLogin=0)
-        return retornar    
-             
-        ## ---  logica algoritmica --- ##
-        # 1. Validar datos que se reciben
-        # 2. comprobar existencia de nickname en base de datos
-        # 3. comprobar que la contraseña sea la correcta
-        # 4. Permitir acceso a la aplicacion a ese usuario (asignar autorizaciones, tokens, session?)
-	    # 5. Retornar a la pagina de galerias de inventarios.
-        
+@app.route('/logout/')
+def logout():
+    try:
+        session.clear()
+        return render_template('loginFormPy.html',title='inicio', form=formLogin(), isLogin= 1 )
+    except:
+        pass
+    return print('Error')
+
+
+@app.route('/galeria/')
+def galeria():
+    return render_template('inventario.html')
 
 ## ruta que: a) lleva al formulario para nuevo usuario (con GET) ; b) transporta desde el Cliente los datos de manera "oculta" hacia el servidor
 @app.route('/crearUsuario/', methods=['GET','POST'])
