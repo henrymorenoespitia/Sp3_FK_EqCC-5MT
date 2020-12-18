@@ -1,0 +1,38 @@
+
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<
+    <!-- seccion de campos para email y contraseña :: poder VER la contraseña y validar "seguridad" de contraseña -->
+
+    {% extends "base.html" %}
+
+    {% block contenido %}
+    <div class="containerPrimero">
+      <form action="/crearUsuario/" method="POST">
+        <div>
+          <div class="label">{{ form.name.label }}</div>
+          <div>{{ form.name() }}</div>
+        </div>
+        <div>
+          <div class="label">{{ form.lname.label }}</div>
+          <div>{{ form.lname() }}</div>
+        </div>
+        <div>
+          <div class="label">{{ form.ema.label }}</div>
+          <div>{{ form.ema() }}</div>
+          <div>
+            <div class="label">{{ form.repEma.label }}</div>
+            <div>{{ form.repEma() }}</div>
+        </div>
+        <span>
+          <div>{{ form.crear() }}</div>
+        </span>
+
+        <br />
+      </form>
+    </div>
+    {% endblock %}
+    

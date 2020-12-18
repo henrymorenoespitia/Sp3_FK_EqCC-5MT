@@ -1,0 +1,43 @@
+{% extends "base.html"%}
+
+{% block contenido %}
+<div class="containerPrimero">
+  <form method="POST" action="">
+    <div>
+      <div class="label">{{ form.rema.label }}</div>
+      <div>{{ form.rema( pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$") }}</div>
+      <div class="Button">{{ form.srch() }}</div>
+    </div>
+    <div>
+      <div class="label">{{ form.ema.label }}</div>
+      <div>{{ form.ema(value = email, pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$") }}</div>
+    </div>
+    <div>
+      <div class="label">{{ form.name.label }}</div>
+      <div>{{ form.name(value= nombres) }}</div>
+    </div>
+    <div>
+      <div class="label">{{ form.lname.label }}</div>
+      <div>{{ form.lname(value= apellidos) }}</div>
+    </div>
+      {% if isEliminar==True %}
+        <div>
+          <div class="Button">{{ form.dele() }}</div>
+        </div>
+      {% else %}
+        <div>
+          <div class="Button">{{ form.updt() }}</div>
+        </div>
+      {% endif %}
+
+<br>
+  </form>
+</div>
+<div id="message" style="display: none;">
+  <h3>La contraseña debe contener:</h3>
+  <p id="letter" class="valid">Una <b>Una letra minuscula </b> letter</p>
+  <p id="capital" class="invalid">Una <b> letra mayuscula</b> letter</p>
+  <p id="number" class="invalid">Un <b>número</b></p>
+  <p id="length" class="invalid">Minimo <b> 8 caracteres</b></p>
+</div>
+{% endblock %}

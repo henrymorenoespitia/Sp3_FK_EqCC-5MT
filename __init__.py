@@ -54,7 +54,7 @@ def login():
                         if estadobd == 'I':
                             retornar = 'El usuario se encuentra inhabilitado para iniciar sesión'
                         elif estadobd == 'P':
-                            retornar = 'El usuario no activado su cuenta'
+                            retornar = 'El usuario no ha activado su cuenta'
                         else:
                             session.clear()
                             session['usr_id'] = ema
@@ -88,6 +88,7 @@ def logout():
 def galeria():
     return render_template('inventario.html')
 
+
 ## ruta que: a) lleva al formulario para nuevo usuario (con GET) ; b) transporta desde el Cliente los datos de manera "oculta" hacia el servidor
 @app.route('/crearUsuario/', methods=['GET','POST'])
 def crearUsuario():
@@ -103,7 +104,6 @@ def crearUsuario():
             lname = escape(request.form['lname'])
             ema = escape(request.form['ema'])
             repEma = escape(request.form['repEma'])
-
 #   3. Validar del lado del servidor
             retornar = ''
             if not isUsernameValid(name):
@@ -142,20 +142,6 @@ def crearUsuario():
         return retornar
 
 
-#        """  --     Lógica algoritmica     --
-#        1. validar los datos que vienen desde el formulario del Cliente <--- realizar las funciones en el archivo 'utils.py' de validaciones
-#        3. Validar existencia del registro en la DB
-#        4. Insercion en DB, estado 'P'
-#        5. Enviar correo de confirmacion al usuario.
-                    #yag = yagmail.SMPT('', '') # ajustar datos
-                    #yag.send(to=email, subject='Confirmar cuenta TusAccApp', contents='Active su cuenta generando su contraseña mediante el siguiente enlace:: <a href=#>...enlace..... </a>')
-                    #retornar = render_template('crearUsuario.html', isLogin = 0)
-                    #retornar = f"usuario {nom} email {email}"
-#        6. al recibir la  confirmacion (/confirmarCorreo)-->Cambiar estado a 'A'.
-#        7. Enviar respuesta al Cliente de exito al crear usuario 
-#        """
-
-
 #################################
 ## Preguntar si maneja algun metodo o si se maneja un token el enlace que llegara al correo??? 
 ## pregunta: se pasa algun token mediante la url o como se hace ese proceso?
@@ -174,6 +160,7 @@ def confCorreoUsuario():
 	#5. Enviar mensaje de confirmacion al usuario.
 	#6. Redirigir a la pagina de login
         return render_template('/login')
+
 
 @app.route('/recuperarContrasena', methods=['GET', 'POST'])
 def recupPwd():
@@ -194,57 +181,100 @@ def recupPwd():
 ##   by Admin
 @app.route('/actualizarUsuario/<string:accion>', methods=['GET','POST'])
 def actualizarUsuario(accion):
-    if request.method == 'GET':
-        print(f"accion es ::  {accion}")
-        isEliminar = False
-        if accion == "eliminar":
-            isEliminar = True
-        print(f"accion es ::  {accion}")
-        return render_template('actualizarUsuario.html', ACCION = isEliminar, isLogin = 0)
-    elif request.method == 'POST':
-        # usuario = escape(request.form['nickname'])
-        ##   ---- logica algotitmica   ---- 
-        ## buscar en la base de datos el nombre de las personas
-        ## retornar la plantilla con los datos del empleado
-        
-        return render_template('actualizarUsuario.html', datos= Null, ACCION = isEliminar)  # datos para rellenar el formulario
-        #                                                                                     # accion = "acctualizar" mas no "eliminar"
-@app.route('/actualizandoUsuario/', methods=['POST'])
-def actndoUsu():
-    if request.method == 'POST':
-        print("estoy aqui procesando POST")
-        nom     = escape(request.form['nombres'])
-        apell   = escape(request.form['apellidos'])
-        email   = escape(request.form['email'])
-        repEm  = escape(request.form['repEmail'])
-        #activo  = escape(request.form['activo'])
-        retornar = ''
-        if not isUsernameValid(nom): ## falta validad existencia en DB
-            retornar += 'Nombre de usuario no valido\n'
-        elif not isEmailValid(email):
-            retornar += 'Email no valido\n'
-        else:
-            retornar = 'Usuario actualizado con exito\n'
-            #yag = yagmail.SMPT('', '') # ajustar datos
-            #yag.send(to=email, subject='Confirmar cuenta TusAccApp', contents='Active su cuenta generando su contraseña mediante el siguiente enlace:: <a href=#>...enlace..... </a>')
-            retornar = render_template('crearUsuario.html', isLogin = 0)
-            #retornar = f"usuario {nom} email {email}"
-       	return retornar
-        """  --     Lógica algoritmica     --
-        1. validar los datos que vienen desde el formulario del Cliente <--- realizar las funciones en el archivo 'utils.py' de validaciones
-        2. Conexion a la base de datos 
-        3. Validar existencia del registro en la DB
-        4. Insercion en DB Tabla TEMPORAL !!
-        5. Enviar correo de confirmacion al usuario.
-        6. al recibir la  confirmacion (/confirmarCorreo)-->Insercion en DB tabla Usuarios PERMANENTE !!.
-        7. Enviar respuesta al Cliente de exito al crear usuario 
-        """
-    else: 
-        return render_template('crearUsuario.html')
+#        """  --     Lógica algoritmica     --
+# 1. Atender los métodos del formulario
+#   1.1. Si el método es GET: Identifico la acción a ejecutar ( si es eliminar o si es actualizar ) y renderizo el formulario.
+    try:
+        if request.method == 'GET':           
+            form = ActualizarUsuario()
+            
+            isEliminar = False
+            if accion == 'eliminar':
+                isEliminar = True
 
-@app.route('/eliminandoUsuario')
-def eliminandoUsuario():
-   pass
+            return render_template('actualizarUsuario.html', form = form, isLogin = 0, isEliminar = isEliminar)
+        elif request.method == 'POST':
+# 2. Recupero el email de búsqueda del formulario, en este caso, si dan click en 'Buscar', recuperar el email.
+            ema = escape(request.form['rema'])
+            form = ActualizarUsuario()
+            isEliminar = False
+            if accion == 'eliminar':
+                isEliminar = True
+                   
+            if form.srch.data:
+               # ema = escape(request.form['rema'])
+# 3. Validar del lado del servidor
+                sal = ''
+                if not isEmailValid(ema):
+                    sal += 'E-Mail no válido\n'
+# 4. Compruebo en la base de datos que el registro existe                
+                else:
+                    query = f"SELECT estado FROM usuarios WHERE email = '{ema}'"
+                    res = consulta_seleccion(query)
+                    if res != None:
+# 5. Recupero los datos a cambiar de la base de datos (Como admin, únicamente podré cambiar Nombres, Apellidos, Email)
+#  en variables de Python, y las hago visibles en el formulario                    
+                        query = f"SELECT nombres, apellidos, email FROM usuarios WHERE email = '{ema}'"
+                        res = consulta_seleccion(query)
+
+                        if res !=None or len(res)==0:
+                            name = res[0][0]
+                            lname = res[0][1]
+                            emai = res[0][2]
+                            sal= render_template('actualizarUsuario.html', form = form, isLogin = 0, isEliminar = isEliminar, nombres = name, apellidos = lname, email = emai)                       
+                        else:
+                            sal= 'E-Mail no encontrado'
+                    else:
+                        sal= 'No se encontró el E-Mail ingresado, por favor, intente nuevamente'
+# 6. Botón actualizar:
+# 6.1 Recupero los datos saneando los Campos.
+            else: #Aqui hago el Submit del Actualizar o Eliminar
+                if not isEliminar:
+                    #ema = escape(request.form['rema'])
+                    query = f"SELECT nombres, apellidos, email FROM usuarios WHERE email = '{ema}'"
+                    res = consulta_seleccion(query)
+
+                    vema = escape(request.form['ema'])
+                    vname = escape(request.form['name'])
+                    vape = escape(request.form['lname'])
+# 7. Valido del lado del servidor
+
+                    sal = ''
+                    if not isUsernameValid(vname):
+                        sal += 'Nombres tienen carácteres inválidos\n'
+                    elif not isUsernameValid(vape):
+                        sal += 'Apellidos tienen carácteres inválidos\n'
+                    elif not isEmailValid(vema):
+                        sal += 'E-mail no valido\n'
+                    else:
+                        print(vema, ema)
+# 8. Valido si los datos son diferentes, y de ser asi, UPDATE a la BD
+                        if vema != ema:
+                            query = f"SELECT email FROM usuarios WHERE email = '{vema}'"
+                            res = consulta_seleccion(query)
+                            print(res)
+                            print(len(res))                        
+                            if len(res) !=0:
+                                sal = 'El E-Mail ya se encuentra en uso'     
+                            else:
+# NOTA: Si se cambia el E-Mail, enviar correo de verificación
+                                query = "UPDATE usuarios SET nombres = ?, apellidos = ?, email = ? WHERE email = ?"
+                                consulta_accion(query, (vname, vape, vema, ema))
+                                sal = 'Usuario Actualizado'
+                        else:
+                            query = "UPDATE usuarios SET nombres = ?, apellidos = ? WHERE email = ?"
+                            consulta_accion(query, (vname, vape, ema))
+                            sal = 'Usuario Actualizado'
+                else:
+                    query = "UPDATE usuarios SET estado = ? WHERE email = ?"
+                    consulta_accion(query, ('I',ema))
+                    sal = 'Usuario Eliminado'                                              
+        else:
+            sal = 'Error'
+    except:
+        sal = 'Except'
+    
+    return sal
 
 @app.route('/nuevoAccesorio', methods=['GET', 'POST'])
 def crearAccesorio():
@@ -283,6 +313,7 @@ def ActualizarProducto(accion):
         # validar datos (caracteres html)
         # Realizar una busqueda en base de datos
 
+
 @app.route('/actualizandoAccesorio', methods=['POST'])
 def actzndoAcc():
     if request.method == 'POST':
@@ -305,7 +336,6 @@ def actzndoAcc():
         return render_template('actualizarProducto.html')
 
 
-
 ## buscar como actualizar con AJAX --
 @app.route('/actualizarCantidades', methods=['POST'])
 def actCantidades():
@@ -320,13 +350,10 @@ def actCantidades():
     pass
 
 
-
-
 ## como convertir el tipo de paso de parametro any dentro de la funcion ??
 @app.route('/actualizarImagen/<string:imagen>', methods=['GET','POST', 'PUT'])#, 'PUT'
 def actImagen(imagen):  ## no string sino 'path'
     return "actualizando imagen"
-
 
 
 ## como se usa el escape del marupsafe aqui para evitar inyeccion en la url por GET ???
