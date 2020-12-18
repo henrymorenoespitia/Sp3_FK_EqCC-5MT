@@ -3,9 +3,10 @@
 {% block contenido %}
 
 <!-- seccion de campos para email y contraseña :: poder VER la contraseña y validar "seguridad" de contraseña -->
+  {% if 'usr_rol' in session %}
 
-<form action="" method="POST" enctype="multipart/form-data">
-<div class="containerPrimero">
+  <form action="" method="POST" enctype="multipart/form-data">
+  <div class="containerPrimero">
     <form action="/nuevoAccesorio" method="POST">
       <div>
         <label for="nombre">Nombre</label>
@@ -44,7 +45,7 @@
       <span>
         <input type="submit" value="Crear " />
       </span>
-   
+    
       <br />
     
   </div>
@@ -57,5 +58,13 @@
   </div>
   </form>
 
+    {% elif 'usr_id' in session %}
+    
+    <div class="containerPrimero">
+      <label style="font-size: 20px;">No tiene los permisos requeridos para realizar alguna acción en esta pagina</label>
 
+    </div>
+
+    
+  {% endif %}
 {% endblock %}
