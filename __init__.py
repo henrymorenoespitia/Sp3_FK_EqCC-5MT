@@ -8,6 +8,7 @@ import yagmail as yagmail
 from application.utils import isPasswordValid, isUsernameValid, isEmailValid
 from application.login import formLogin, CrearUsuario 
 from application.db import consulta_accion, consulta_seleccion
+from werkzeug.security import generate_password_hash, check_password_hash
 #from app.forms import formLogin
 
 app = Flask(__name__)
@@ -47,7 +48,7 @@ def login():
                     estadobd = res[0][0]
                     userbd = res[0][2]
                     print('')
-                    #if check_password_hash(clavebd,cla):
+                    #if check_password_hash(clavebd,pwd):
                     if pwd == clavebd:
                         # Esta modificación obedece a la implementación de borrado lógico
                         if estadobd == 'I':
